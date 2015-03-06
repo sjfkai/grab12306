@@ -1,0 +1,27 @@
+{
+  "name": "grab12306",
+  "version": "0.1.0",
+  "description": "grab stations list,trains list and trains schedule from 12306.cn",
+  "main": "index.js",
+  "scripts": {
+    "test": "todo "
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sjfkai/grab12306.git"
+  },
+  "keywords": [
+    "12306",
+    "trains-list"
+  ],
+  "author": "sjfkai",
+  "license": "GNU",
+  "bugs": {
+    "url": "https://github.com/sjfkai/grab12306/issues"
+  },
+  "homepage": "https://github.com/sjfkai/grab12306",
+  "dependencies": {
+    "bluebird": "^2.9.13",
+    "request": "^2.53.0"
+  }
+}
