@@ -7,13 +7,13 @@ var util = require('./util.js');
 var grabStation = require('./grab_station.js');
 
 if(config.grab_station){
-	console.log("start");
+	console.log("grabing stations...");
 	grabStation().then(function(stationList){
 		//save
-		return util.saveData('station_list.json',JSON.stringify(stationList));
+		return util.saveData('station_list.json',JSON.stringify(stationList , null ,4));
 		
 	}).then(function(){
-		console.log("success");
+		console.log("grab stations complete...");
 	}).catch(function(err){
 		console.log(err);
 	});
