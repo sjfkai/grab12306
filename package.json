@@ -23,6 +23,8 @@
   "dependencies": {
     "bluebird": "^2.9.13",
     "mkdirp": "^0.5.0",
-    "request": "^2.53.0"
+    "moment": "^2.9.0",
+    "request": "^2.53.0",
+    "terminal-menu": "^2.1.1"
   }
 }

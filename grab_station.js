@@ -38,7 +38,9 @@ var grab_station = function() {
 			stationList.push(station);
 		});
 		console.log("analyse " + tempStationList.length + " stations complete....");
-		return Promise.resolve(stationList);
+		return Promise.resolve({
+			data: stationList
+		});
 
 	});
 	/* 	request({url : stationFilePath ,strictSSL : false}, function (error, response, body) {
