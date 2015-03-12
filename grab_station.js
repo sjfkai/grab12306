@@ -1,16 +1,21 @@
 var request = require('request');
 var Promise = require("bluebird");
 Promise.promisifyAll(request);
-var stationFilePath = "https://kyfw.12306.cn/otn/resources/js/framework/station_name.js";
+var util = require('./util.js');
+var stationFileUrl = "https://kyfw.12306.cn/otn/resources/js/framework/station_name.js";
 
-var grab_station = function() {
-	return request.getAsync({
-		url: stationFilePath,
-		strictSSL: false
-	}).then(function(data) {
-		console.log("download stations complete....");
-		var stationsStr = data[1]; //"var station_names ='@bjb|北京北|VA……"
-		eval(stationsStr);
+/**
+  * 抓取并保存车站列表
+  */
+var grab_station = function(config) {
+	if(!(config.grab_train_list||config.grab_station)){
+		//不抓取 直接返回
+		return Promise.resolve();
+	}
+	console.log("开始抓取车站列表");
+	return util.download(stationFileUrl).then(function(data) {
+/* 		var stationsStr = data[1]; //"var station_names ='@bjb|北京北|VA……" */
+		eval(data);
 		var tempStationList = station_names.split('@');
 		var stationList = [];
 		tempStationList.splice(0, 1);
@@ -42,6 +47,9 @@ var grab_station = function() {
 			data: stationList
 		});
 
+	}).then(function(stationList){
+		//保存
+		return util.saveData('station_list.json',JSON.stringify(stationList.data , null ,4));
 	});
 	/* 	request({url : stationFilePath ,strictSSL : false}, function (error, response, body) {
 		if(error){
@@ -56,7 +64,7 @@ var grab_station = function() {
 module.exports = grab_station;
 
 if (!module.parent) {
-	grab_station().then(function(trainList) {
+	grab_station(require('./config.js')).then(function(trainList) {
 		console.log(trainList);
 	});
 }

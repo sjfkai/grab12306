@@ -3,51 +3,22 @@ var fs = require('fs');
 var Promise = require('bluebird');
 var Menu = require('terminal-menu');
 var moment = require('moment');
+var util = require('./util.js');
 
 var trainFileUrl = "https://kyfw.12306.cn/otn/resources/js/query/train_list.js";
 
 var filePath = "./temp/train_list.js";
+/**
+  * 抓取并保存车次列表
+  */
 var grab_train = function(config) {
-
+	if(!(config.grab_train_list || config.grab_train_schedule)){
+		//不抓取 直接返回
+		 return Promise.resolve();
+	}
+	console.log("开始抓取车次列表");
 	//下载文件
-	return new Promise(function(resolve, reject) {
-/* 		//测试时使用本地文件
-		if (fs.existsSync(filePath)) {
-			fs.readFile(filePath, {
-				encoding: 'utf8'
-			}, function(err, data) {
-				resolve(data);
-			});
-		} else { */
-			var data = '';
-			var fileLength = 1;
-			request.get({
-				url: trainFileUrl,
-				strictSSL: false
-			}).on("response", function(response) {
-				fileLength = parseInt(response.headers['content-length']);
-				console.log("file size : " + fileLength + "B");
-			}).on("data", function(chunk) {
-				data += chunk;
-			}).on("end", function() {
-				resolve(data);
-				//关闭进度更新循环函数
-				clearInterval(downloadProgress);
-				console.log("下载中:            100%");
-			}).on("error", reject);
-			//更新进度
-			var lastLength = 0;
-			var downloadProgress = setInterval(function() {
-				var dataLength = data.length;
-				var percent = parseInt(dataLength / fileLength * 100);
-				var netSpeed = dataLength - lastLength;
-				lastLength = dataLength;
-				
-				process.stdout.write("下载中:            "+percent + "%              " + dataLength + "/" + fileLength + "                " + netSpeed + "B/s             " + "\r");
-			}, 1000);
-/* 		} */
-
-	}).then(function(data) {
+	return util.download(trainFileUrl).then(function(data) {
 		//选择日期
 		return new Promise(function(resolve, reject) {
 			eval(data); //var train_list ={"2015-05-06":{"D":[{"station_train_code":"D1(北京-沈阳)","train_no":"24000000D10......
@@ -121,6 +92,10 @@ var grab_train = function(config) {
 		trainList.data = data;
 		console.log("analyse " + trainList.data.length + " stations complete....");
 		return Promise.resolve(trainList);
+	}).then(function(trainList){
+		return util.saveData('train_list.json' , JSON.stringify(trainList.data, null ,4)).then(function(){
+			return Promise.resolve(trainList.date);
+		});
 	});
 
 };

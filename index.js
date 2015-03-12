@@ -7,8 +7,18 @@ var util = require('./util.js');
 var grabStation = require('./grab_station.js');
 var grabTrain = require('./grab_train.js');
 
-//车站
-if(config.grab_station){
+
+grabStation(config).then(function(){
+	return grabTrain(config);
+}).then(function(date){
+	console.log(date||"no date");
+	console.log("done...");
+});
+
+
+
+/* //车站
+if(config.grab_train_list||config.grab_station){
 	console.log("grabing stations...");
 	grabStation().then(function(stationList){
 		//save
@@ -20,9 +30,9 @@ if(config.grab_station){
 		console.log(err);
 	});
 }
+ */
 
-
-if(config.grab_train_list || config.grab_train_schedule){
+/* if(config.grab_train_list || config.grab_train_schedule){
 	console.log("grabing train list...");
 	grabTrain(config).then(function(trainList){
 		if(config.grab_train_list){
@@ -34,9 +44,8 @@ if(config.grab_train_list || config.grab_train_schedule){
 	}).catch(function(err){
 		console.log(err);
 	});
-}
+} */
 
 
 
 
-console.log("done...");
