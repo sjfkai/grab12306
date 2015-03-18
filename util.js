@@ -7,6 +7,16 @@ var request = require('request');
 
 var writeFile = Promise.promisify(require("fs").writeFile);
 
+//将url中的:xxx 用 values.xxx 代替
+exports.formatUrl = function(url , values){
+	return url.replace(/\:(\w+)/g, function( match , key){
+		if (values.hasOwnProperty(key)) {
+		  return values[key];
+		}
+		return url;
+	});
+};
+
 //保存文件到config中的path目录下
 exports.saveData = function(filename ,data ){
 	var dataDir = path.join(__dirname,config.path);

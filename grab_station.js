@@ -7,7 +7,8 @@ var stationFileUrl = "https://kyfw.12306.cn/otn/resources/js/framework/station_n
 /**
   * 抓取并保存车站列表
   */
-var grab_station = function(config) {
+var grabStation = function(global) {
+	var config = global.config;
 	if(!(config.grab_train_list||config.grab_station)){
 		//不抓取 直接返回
 		return Promise.resolve();
@@ -17,7 +18,7 @@ var grab_station = function(config) {
 /* 		var stationsStr = data[1]; //"var station_names ='@bjb|北京北|VA……" */
 		eval(data);
 		var tempStationList = station_names.split('@');
-		var stationList = [];
+		var stationListData = [];
 		tempStationList.splice(0, 1);
 		tempStationList.forEach(function(stationStr) {
 			/*
@@ -40,14 +41,15 @@ var grab_station = function(config) {
 				sPinyin: tempStation[4],
 				ssPinyin: tempStation[0]
 			};
-			stationList.push(station);
+			stationListData.push(station);
 		});
 		console.log("analyse " + tempStationList.length + " stations complete....");
 		return Promise.resolve({
-			data: stationList
+			data: stationListData
 		});
 
 	}).then(function(stationList){
+		global.stationList = stationList;
 		//保存
 		return util.saveData('station_list.json',JSON.stringify(stationList.data , null ,4));
 	});
@@ -61,10 +63,13 @@ var grab_station = function(config) {
 	}); */
 };
 
-module.exports = grab_station;
+module.exports = grabStation;
 
 if (!module.parent) {
-	grab_station(require('./config.js')).then(function(trainList) {
+	var global = {
+		config : require('./config.js')
+	};
+	grabStation(global).then(function(trainList) {
 		console.log(trainList);
 	});
 }

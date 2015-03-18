@@ -11,7 +11,8 @@ var filePath = "./temp/train_list.js";
 /**
   * 抓取并保存车次列表
   */
-var grab_train = function(config) {
+var grabTrain = function(global) {
+	var config = global.config;
 	if(!(config.grab_train_list || config.grab_train_schedule)){
 		//不抓取 直接返回
 		 return Promise.resolve();
@@ -93,17 +94,19 @@ var grab_train = function(config) {
 		console.log("analyse " + trainList.data.length + " stations complete....");
 		return Promise.resolve(trainList);
 	}).then(function(trainList){
-		return util.saveData('train_list.json' , JSON.stringify(trainList.data, null ,4)).then(function(){
-			return Promise.resolve(trainList.date);
-		});
+		global.trainList = trainList;
+		return util.saveData('train_list.json' , JSON.stringify(trainList.data, null ,4));
 	});
 
 };
 
-module.exports = grab_train;
+module.exports = grabTrain;
 
 if (!module.parent) {
-	grab_train(require('./config.js')).then(function(res) {
+	var global = {
+		config : require('./config.js')
+	};
+	grabTrain(require('./config.js')).then(function(res) {
 		console.log(res.data);
 	});
 }

@@ -6,12 +6,19 @@ var config = require('./config.js');
 var util = require('./util.js');
 var grabStation = require('./grab_station.js');
 var grabTrain = require('./grab_train.js');
+var grabSchedule = require('./grab_schedule.js');
 
-
-grabStation(config).then(function(){
-	return grabTrain(config);
-}).then(function(date){
-	console.log(date||"no date");
+var global = {};
+global.config = config;
+//车站
+grabStation(global).then(function(){
+	//车次
+	return grabTrain(global);
+}).then(function(){
+	//时刻表
+	return "";
+	//return grabSchedule(global);
+}).then(function(){
 	console.log("done...");
 });
 
