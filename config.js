@@ -1,6 +1,11 @@
 //# grab12306 Configuration
 
 module.exports = {
+	
+	/**
+	 *选择需要抓取的列表
+	 *NOTE:因为抓取时刻表必须抓取车站列表和车次列表，所以 grab_train_schedule=true 时即使其他为false也会抓取所有列表
+	 */
 	//抓取车站列表
 	grab_station : true,
 	//抓取车次列表

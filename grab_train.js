@@ -4,20 +4,22 @@ var Promise = require('bluebird');
 var Menu = require('terminal-menu');
 var moment = require('moment');
 var util = require('./util.js');
+var logger = require('winston');
+
 
 var trainFileUrl = "https://kyfw.12306.cn/otn/resources/js/query/train_list.js";
 
 var filePath = "./temp/train_list.js";
 /**
-  * 抓取并保存车次列表
-  */
+ * 抓取并保存车次列表
+ */
 var grabTrain = function(global) {
 	var config = global.config;
-	if(!(config.grab_train_list || config.grab_train_schedule)){
+	if (!(config.grab_train_list || config.grab_train_schedule)) {
 		//不抓取 直接返回
-		 return Promise.resolve();
+		return Promise.resolve();
 	}
-	console.log("开始抓取车次列表");
+	logger.info("开始抓取车次列表");
 	//下载文件
 	return util.download(trainFileUrl).then(function(data) {
 		//选择日期
@@ -66,6 +68,7 @@ var grabTrain = function(global) {
 				});
 				menu.on('select', function(label) {
 					menu.close();
+					logger.info("您选择的抓取日期为" + label);
 					resolve({
 						data: train_list[label],
 						date: label
@@ -85,17 +88,17 @@ var grabTrain = function(global) {
 				data.push({
 					train: RegExp.$1,
 					start_station: RegExp.$2,
-					end_sta: RegExp.$3,
+					end_station: RegExp.$3,
 					train_no: train.train_no
 				});
 			});
 		});
 		trainList.data = data;
-		console.log("analyse " + trainList.data.length + " stations complete....");
+		logger.info("analyse " + trainList.data.length + " stations complete....");
 		return Promise.resolve(trainList);
-	}).then(function(trainList){
+	}).then(function(trainList) {
 		global.trainList = trainList;
-		return util.saveData('train_list.json' , JSON.stringify(trainList.data, null ,4));
+		return util.saveData('train_list.json', JSON.stringify(trainList.data, null, 4));
 	});
 
 };
@@ -104,7 +107,7 @@ module.exports = grabTrain;
 
 if (!module.parent) {
 	var global = {
-		config : require('./config.js')
+		config: require('./config.js')
 	};
 	grabTrain(require('./config.js')).then(function(res) {
 		console.log(res.data);
