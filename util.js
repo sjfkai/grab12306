@@ -13,6 +13,8 @@ var ArraySaver = exports.ArraySaver = function(fileName) {
 
 	this.q = []; //要保存的对象队列
 	this.filePath = path.join(__dirname, config.path, fileName);
+	this.isFirstRow = true; //第一行开头不写入逗号
+	//timer
 	this.isRunning = false;
 	this.timer = null;
 
@@ -44,7 +46,12 @@ ArraySaver.prototype.run = function() {
 
 		var str = "";
 		for (var i = 0; i < len; i++) {
-			str += JSON.stringify(self.q[i]) + ",\n";
+			if(self.isFirstRow){
+				self.isFirstRow = false;
+				str +=  JSON.stringify(self.q[i]);
+			}else{
+				str +=  ",\n" + JSON.stringify(self.q[i]);
+			}
 		}
 		//console.log(str);
 		fs.appendFile(self.filePath, str);

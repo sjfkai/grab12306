@@ -17,9 +17,8 @@ var grabSchedule = function(global) {
 	var stationListArr = global.stationList.data;
 	var trainListArr = global.trainList.data;
 	var depart_date = global.trainList.date;
-
-	var scheduleSaver = new util.ArraySaver("train_schedule.json");
-
+	var scheduleSaver = global.scheduleSaver ? global.scheduleSaver :new util.ArraySaver("train_schedule.json");
+	
 	var arrLen = trainListArr.length; // 统计用
 	var curr = 0;
 
@@ -126,7 +125,8 @@ var grabSchedule = function(global) {
 			var newGlobal = {
 				config: global.config,
 				stationList: global.stationList,
-				trainList: trainList
+				trainList: trainList,
+				scheduleSaver : scheduleSaver
 			};
 			return grabSchedule(newGlobal);
 		} else {
@@ -182,7 +182,7 @@ if (!module.parent) {
 		data: [{
 			train: "C2203",
 			start_station: "北京南",
-			end_sta: "天津",
+			end_station: "天津",
 			train_no: "24000C220309"
 		}]
 	};

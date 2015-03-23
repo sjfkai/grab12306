@@ -31,6 +31,6 @@ grabStation(global).then(function() {
 }).then(function() {
 	var time = moment().subtract(beginTime);
 
-	logger.info("所有抓取已完成，共耗时"+time.format("h时mm分ss秒"));
+	logger.info("所有抓取已完成，共耗时"+time.format("H时mm分ss秒"));
 });
 
