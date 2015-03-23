@@ -8,7 +8,7 @@
 ## 如何用
 	$ git clone https://github.com/sjfkai/grab12306.git
 	
-	$ grab12306
+	$ cd grab12306
 	
 	$ node grab12306.js
 	
@@ -109,3 +109,4 @@
 ## TODO
   - 可以存储到数据库
   - 增加其他有用的字段
+  - test !!!
