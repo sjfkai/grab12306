@@ -6,8 +6,11 @@
 为了保证时刻表中车次按顺序排列，我采用了单线抓取，所以完全抓取一次大约需要`20-30分钟`
 
 ## 如何用
-	git clone https://github.com/sjfkai/grab12306.git
-	node grab12306.js
+	$ git clone https://github.com/sjfkai/grab12306.git
+	
+	$ grab12306
+	
+	$ node grab12306.js
 	
 ## 结果示例
 
