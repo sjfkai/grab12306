@@ -4,10 +4,10 @@ var Promise = require('bluebird');
 var moment = require('moment');
 
 var config = require('./config.js');
-var util = require('./util.js');
-var grabStation = require('./grab_station.js');
-var grabTrain = require('./grab_train.js');
-var grabSchedule = require('./grab_schedule.js');
+var util = require('./lib/util.js');
+var grabStation = require('./lib/grab_station.js');
+var grabTrain = require('./lib/grab_train.js');
+var grabSchedule = require('./lib/grab_schedule.js');
 
 var logger = require('winston');
 logger.remove(logger.transports.Console);
