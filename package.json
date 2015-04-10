@@ -4,7 +4,7 @@
   "description": "grab stations list,trains list and trains schedule from 12306.cn",
   "main": "index.js",
   "scripts": {
-	"start" : "node grab12306.js",
+    "start": "node grab12306.js",
     "test": "todo "
   },
   "repository": {
@@ -14,7 +14,7 @@
   "keywords": [
     "12306",
     "train",
-	"schedule"
+    "schedule"
   ],
   "author": "sjfkai",
   "license": "GNU",
@@ -29,5 +29,9 @@
     "request": "^2.53.0",
     "terminal-menu": "^2.1.1",
     "winston": "^0.9.0"
+  },
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "chai-as-promised": "^4.3.0"
   }
 }
