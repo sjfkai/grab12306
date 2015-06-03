@@ -1,3 +1,4 @@
+require('v8-profiler');
 var fs = require('fs');
 var path = require('path');
 var Promise = require('bluebird');
@@ -32,5 +33,5 @@ grabStation(global).then(function() {
 	var time = moment().subtract(beginTime);
 
 	logger.info("所有抓取已完成，共耗时"+time.format("H时mm分ss秒"));
-});
+}).catch(logger.error);
 
