@@ -26,3 +26,9 @@ node_modules
 
 # Users Environment Variables
 .lock-wscript
+
+#webstorm
+.idea
+
+#grab12306
+data
