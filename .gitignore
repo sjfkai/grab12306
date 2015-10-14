@@ -30,5 +30,8 @@ node_modules
 #webstorm
 .idea
 
+#visual studio code
+.vscode
+
 #grab12306
 data
