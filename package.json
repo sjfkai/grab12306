@@ -26,6 +26,7 @@
     "bluebird": "^2.9.13",
     "mkdirp": "^0.5.0",
     "moment": "^2.9.0",
+    "progress-request": "0.0.1",
     "request": "^2.53.0",
     "terminal-menu": "^2.1.1",
     "winston": "^0.9.0"
