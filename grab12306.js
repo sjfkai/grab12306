@@ -29,7 +29,8 @@ grabStation(global).then(function() {
 	//时刻表
 	return grabSchedule(global);
 }).then(function() {
-	var time = moment().subtract(beginTime);
+	const seconds = moment().unix() - beginTime.unix();
+	var time = moment().startOf('day').seconds(seconds);
 
 	logger.info("所有抓取已完成，共耗时"+time.format("H时mm分ss秒"));
 }).catch(logger.error);
