@@ -14,10 +14,10 @@ module.exports = {
 	grab_train_schedule : true,
 
 	//是否自动抓取最新日期的车次列表，如为false则需手动选择抓取日期
-	grab_newest_train_list : false,
+	grab_newest_train_list : true,
 
         // Skip trains until this number, to deal with failed grabs
-        train_skip_grab_until : 'D10',
+        train_skip_grab_until : undefined,
     
         // wait this many miliseconds between downloads to avoid crashing the server
         wait_time_between_downloads : 2000,
